@@ -23,7 +23,7 @@ echo "config:           ${config:=configs/deepspeed.yaml}"
 echo "lr:               ${lr:=3e-4}"
 echo "scheduler:        ${scheduler:=cosine_with_min_lr}"
 echo "epochs:           ${epochs:=1}"
-echo "optim:            ${optim:=adamw_torch}"
+echo "optim:            ${optim:=adamw_torch_fused}"
 echo "decay:            ${decay:=0.01}"
 echo "beta1:            ${beta1:=0.9}"
 echo "beta2:            ${beta2:=0.95}"
@@ -91,11 +91,12 @@ else
   params+=" --report_to none"
 fi
 
+NUM_GPUS=$(nvidia-smi --list-gpus | wc -l)
 echo "Launching training..."
 accelerate_params=""
 if [ "$rank" != "" ]; then
   accelerate_params+=" --machine_rank $rank  \
-    --num_processes $((nodes * 1)) \
+    --num_processes $((nodes * $NUM_GPUS)) \
     --num_machines $nodes \
     --main_process_ip $ip \
     --main_process_port $port \
@@ -135,7 +136,8 @@ deepspeed_config:
 machine_rank: 0
 main_training_function: main
 num_machines: 1
-num_processes: 1
+num_processes: $NUM_GPUS
+>>>>>>> 1626011cb029b7859245398cb8396852a7bcdbb8
 use_cpu: false
 EOF
 fi
@@ -157,7 +159,7 @@ machine_rank: 0
 main_training_function: main
 mixed_precision: bf16
 num_machines: $nodes
-num_processes: $((nodes * 1))
+num_processes: $((nodes * $NUM_GPUS))
 rdzv_backend: static
 same_network: true
 tpu_env: []

@@ -6,6 +6,7 @@ from .based import BasedLinearAttention
 from .delta_net import DeltaNet
 from .gla import GatedLinearAttention
 from.qgla import QGatedLinearAttention
+from .gsa import GatedSlotAttention
 from .hgrn import HGRNAttention
 from .hgrn2 import HGRN2Attention
 from .linear_attn import LinearAttention
@@ -20,6 +21,7 @@ __all__ = [
     'DeltaNet',
     'GatedLinearAttention',
     'QGatedLinearAttention',
+    'GatedSlotAttention',
     'HGRNAttention',
     'HGRN2Attention',
     'LinearAttention',

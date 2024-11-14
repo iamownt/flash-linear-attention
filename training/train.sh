@@ -6,7 +6,7 @@ done
 echo "model:            ${model:=mistralai/Mistral-7B-v0.1}"
 echo "tokenizer:        ${tokenizer:=mistralai/Mistral-7B-v0.1}"
 echo "project:          ${project:=fla}"
-echo "type:             ${type:=gla}"
+echo "type:             ${type:=qgla}"
 echo "data:             ${data:=}"
 echo "name:             ${name:=}"
 echo "cache:            ${cache:=}"
@@ -28,7 +28,7 @@ echo "decay:            ${decay:=0.01}"
 echo "beta1:            ${beta1:=0.9}"
 echo "beta2:            ${beta2:=0.95}"
 echo "norm:             ${norm:=1.0}"
-echo "batch:            ${batch:=32}"
+echo "batch:            ${batch:=64}"
 echo "update:           ${update:=4}"
 echo "warmup:           ${warmup:=512}"
 echo "path:             ${path:=}"
@@ -95,7 +95,7 @@ echo "Launching training..."
 accelerate_params=""
 if [ "$rank" != "" ]; then
   accelerate_params+=" --machine_rank $rank  \
-    --num_processes $((nodes * 8)) \
+    --num_processes $((nodes * 1)) \
     --num_machines $nodes \
     --main_process_ip $ip \
     --main_process_port $port \
@@ -114,14 +114,16 @@ cat <<EOF > "configs/ds_config.json"
     "enabled": true
   },
   "zero_optimization": {
-    "stage": 2,
+    "stage": 3,
     "allgather_partitions": true,
     "allgather_bucket_size": 5e8,
     "reduce_scatter": true,
     "reduce_bucket_size": 5e8,
     "overlap_comm": false,
-    "contiguous_gradients": true
-  }
+    "contiguous_gradients": true,
+    "offload_optimizer": {
+    "device": "cpu"}
+    }
 }
 EOF
 cat <<EOF > $config
@@ -133,7 +135,7 @@ deepspeed_config:
 machine_rank: 0
 main_training_function: main
 num_machines: 1
-num_processes: 8
+num_processes: 1
 use_cpu: false
 EOF
 fi
@@ -155,7 +157,7 @@ machine_rank: 0
 main_training_function: main
 mixed_precision: bf16
 num_machines: $nodes
-num_processes: $((nodes * 8))
+num_processes: $((nodes * 1))
 rdzv_backend: static
 same_network: true
 tpu_env: []

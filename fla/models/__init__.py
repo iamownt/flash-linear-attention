@@ -4,6 +4,7 @@ from fla.models.abc import ABCConfig, ABCForCausalLM, ABCModel
 from fla.models.delta_net import (DeltaNetConfig, DeltaNetForCausalLM,
                                   DeltaNetModel)
 from fla.models.gla import GLAConfig, GLAForCausalLM, GLAModel
+from fla.models.qgla import QGLAConfig, QGLAForCausalLM, QGLAModel
 from fla.models.gsa import GSAConfig, GSAForCausalLM, GSAModel
 from fla.models.hgrn import HGRNConfig, HGRNForCausalLM, HGRNModel
 from fla.models.hgrn2 import HGRN2Config, HGRN2ForCausalLM, HGRN2Model
@@ -22,6 +23,7 @@ __all__ = [
     'ABCConfig', 'ABCForCausalLM', 'ABCModel',
     'DeltaNetConfig', 'DeltaNetForCausalLM', 'DeltaNetModel',
     'GLAConfig', 'GLAForCausalLM', 'GLAModel',
+    'QGLAConfig', 'QGLAForCausalLM', 'QGLAModel',
     'GSAConfig', 'GSAForCausalLM', 'GSAModel',
     'HGRNConfig', 'HGRNForCausalLM', 'HGRNModel',
     'HGRN2Config', 'HGRN2ForCausalLM', 'HGRN2Model',

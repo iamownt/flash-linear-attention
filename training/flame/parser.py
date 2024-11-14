@@ -31,7 +31,7 @@ class TrainingArguments(TrainingArguments):
         metadata={"help": "Whether or not to use one of the fast tokenizer (backed by the tokenizers library)."},
     )
     from_config: bool = field(
-        default=True,
+        default=False,
         metadata={"help": "Whether to initialize models from scratch."},
     )
     dataset: Optional[str] = field(

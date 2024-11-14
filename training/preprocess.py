@@ -99,7 +99,7 @@ if __name__ == "__main__":
     parser.add_argument("--split", default="train", help="Dataset split to process")
     parser.add_argument("--output", default="data", help="Output directory")
     parser.add_argument("--model", default="mistralai/Mistral-7B-v0.1", help="Model name for tokenizer")
-    parser.add_argument("--num_proc", type=int, default=64, help="Number of processes for parallel processing")
+    parser.add_argument("--num_proc", type=int, default=32, help="Number of processes for parallel processing")
     parser.add_argument("--context_length", type=int, default=8192, help="Context length for tokenization")
     args = parser.parse_args()
 

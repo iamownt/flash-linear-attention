@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
-
+import fla
+from transformers import (AutoConfig, AutoModelForCausalLM, AutoTokenizer,
+                          DataCollatorForLanguageModeling, Trainer)
 import os
 
 import torch
 from datasets import load_from_disk
-from transformers import (AutoConfig, AutoModelForCausalLM, AutoTokenizer,
-                          DataCollatorForLanguageModeling, Trainer)
 
-import fla  # noqa
 from flame.logging import LogCallback, get_logger
 from flame.parser import get_train_args
+
 
 logger = get_logger(__name__)
 
@@ -35,9 +35,10 @@ def main():
         logger.info(f"Loading pretrained checkpoint {args.model_name_or_path}")
         model = AutoModelForCausalLM.from_pretrained(args.model_name_or_path)
     model.train()
+    print(model)
 
     trainable_params, all_param = model.num_parameters(only_trainable=True), model.num_parameters()
-    logger.info(f"% of trainable params: {trainable_params:d} / {all_param:d} = {trainable_params / all_param:.2%}")
+    logger.info(f"% of trainable params: {trainable_params:d} / {all_param:d}")
     logger.info(f"{tokenizer}\n{model}\n{model.config}")
 
     logger.info(f"Loading the `{args.split}` split directly from the cache {args.cache_dir}...")

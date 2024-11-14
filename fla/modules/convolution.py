@@ -75,6 +75,23 @@ def proj_then_conv1d(
         )
     return x
 
+class Qttn(nn.Module):
+    def __init__(self, lora_alpha: float, r: int = 16, hidden_size: int = 512):
+        super().__init__()
+        self.lora_alpha = lora_alpha
+        self.r = r
+        self.lora_A = nn.Parameter(torch.zeros(hidden_size, r))
+        self.lora_B = nn.Parameter(torch.zeros(r, hidden_size))
+        self.qttn_bias = nn.Parameter(torch.ones(1, hidden_size))
+        self.scaling = self.lora_alpha / self.r
+        nn.init.kaiming_uniform_(self.lora_A, a=math.sqrt(5))
+        nn.init.zeros_(self.lora_B)
+
+    def forward(self, x: torch.Tensor):
+        result = self.qttn_bias.unsqueeze(dim=0) * x
+        result +=  ((x * x) @ self.lora_A @ self.lora_B) * self.scaling
+        # assert torch.allclose(result, x), "Should be the same in the first run"
+        return result
 
 class ShortConvolution(nn.Conv1d):
     """

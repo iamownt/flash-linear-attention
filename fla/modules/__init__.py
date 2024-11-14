@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from fla.modules.convolution import (ImplicitLongConvolution, LongConvolution,
-                                     ShortConvolution)
+                                     ShortConvolution, Qttn)
 from fla.modules.fused_cross_entropy import FusedCrossEntropyLoss
 from fla.modules.fused_kl_div import FusedKLDivLoss
 from fla.modules.fused_linear_cross_entropy import FusedLinearCrossEntropyLoss

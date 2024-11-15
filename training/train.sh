@@ -114,17 +114,26 @@ cat <<EOF > "configs/ds_config.json"
   "bf16": {
     "enabled": true
   },
-  "zero_optimization": {
-    "stage": 3,
+    "zero_optimization": {
+    "stage": 2,
     "allgather_partitions": true,
     "allgather_bucket_size": 5e8,
     "reduce_scatter": true,
     "reduce_bucket_size": 5e8,
     "overlap_comm": false,
-    "contiguous_gradients": true,
-    "offload_optimizer": {
-    "device": "cpu"}
-    }
+    "contiguous_gradients": true
+  }
+#  "zero_optimization": {
+#    "stage": 3,
+#    "allgather_partitions": true,
+#    "allgather_bucket_size": 5e8,
+#    "reduce_scatter": true,
+#    "reduce_bucket_size": 5e8,
+#    "overlap_comm": false,
+#    "contiguous_gradients": true,
+#    "offload_optimizer": {
+#    "device": "cpu"}
+#    }
 }
 EOF
 cat <<EOF > $config
@@ -137,7 +146,6 @@ machine_rank: 0
 main_training_function: main
 num_machines: 1
 num_processes: $NUM_GPUS
->>>>>>> 1626011cb029b7859245398cb8396852a7bcdbb8
 use_cpu: false
 EOF
 fi

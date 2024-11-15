@@ -277,13 +277,13 @@ class QGLAModel(QGLAPreTrainedModel):
         )
 
 
-class GLAForCausalLM(GLAPreTrainedModel, GenerationMixin):
+class GLAForCausalLM(QGLAPreTrainedModel, GenerationMixin):
 
     _tied_weights_keys = ["lm_head.weight"]
 
     def __init__(self, config):
         super().__init__(config)
-        self.model = GLAModel(config)
+        self.model = QGLAModel(config)
         self.vocab_size = config.vocab_size
         self.lm_head = nn.Linear(config.hidden_size, config.vocab_size, bias=False)
 
